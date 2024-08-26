@@ -1,0 +1,20 @@
+application.xml 수정
+#----------------------------------------------------------------------------------------------------------------
+server:
+  port: 0   # 0으로 적용하면 랜덤포트가 적용된다.
+
+spring:
+  application:
+    name: my-first-service
+
+# instance-id를 등록한 이유는 랜덤포트로 등록할 경우 포트를 0으로 다 나오니 어떤 인스턴스 인지 유레카에서 알수 있는 방법이 존재하지 않는다.
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
